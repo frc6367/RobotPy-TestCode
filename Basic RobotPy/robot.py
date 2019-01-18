@@ -1,11 +1,11 @@
 import wpilib
 import wpilib.drive
-import magicbot
 import ctre
 
+from magicbot import MagicRobot
 from components.FlashDrive import FlashDrive
 
-class MyRobot(magicbot.MagicRobot):
+class MyRobot(MagicRobot):
 
     flashdrive : FlashDrive
 
@@ -17,17 +17,17 @@ class MyRobot(magicbot.MagicRobot):
         self.flashdrive_right_slave1 = ctre.WPI_VictorSPX(5)
         self.flashdrive_right_slave2 = ctre.WPI_VictorSPX(6)
         
-        self.left_drive = wpilib.SpeedControllerGroup(
+        self.flashdrive_left_drive = wpilib.SpeedControllerGroup(
             self.flashdrive_left_master,
             self.flashdrive_left_slave1,
             self.flashdrive_left_slave2
         )
-        self.right_drive = wpilib.SpeedControllerGroup(
+        self.flashdrive_right_drive = wpilib.SpeedControllerGroup(
             self.flashdrive_right_master,
             self.flashdrive_right_slave1,
             self.flashdrive_right_slave2
         )
-        self.flashdrive_drivetrain = wpilib.drive.DifferentialDrive(self.flashdrive_left_master, self.flashdrive_right_master)
+        self.flashdrive_drivetrain = wpilib.drive.DifferentialDrive(self.flashdrive_left_drive, self.flashdrive_right_drive)
         self.joystick = wpilib.Joystick(0)
 
 
