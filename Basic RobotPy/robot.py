@@ -1,8 +1,8 @@
 import wpilib
-import wpilib.drive
+import rev
 import ctre
 from magicbot import MagicRobot
-from components.FlashDrive import FlashDrive
+from components.Drivetrain.FlashDrive import FlashDrive
 from components.Elevator.Elevator import Elevator
 from components.Elevator.Constants import Constants
 
@@ -13,6 +13,7 @@ class MyRobot(MagicRobot):
     constants : Constants
 
     def createObjects(self):
+        self.intake_motor = rev.CANSparkMax(7,rev.MotorType.kBrushless)
         self.flashdrive_left_master = ctre.WPI_TalonSRX(1)
         self.flashdrive_left_slave1 = ctre.WPI_VictorSPX(2)
         self.flashdrive_left_slave2 = ctre.WPI_VictorSPX(3)
@@ -52,11 +53,11 @@ class MyRobot(MagicRobot):
         self.elevator_motor.setInverted(False)
         #Set relevant time frames to be as fast as ppssible
         self.elevator_motor.setStatusFramePeriod( 
-            self.elevator_motor.StatusFrameEnhanced.Status_13_Base_PIDF0, 
+            ctre.WPI_TalonSRX.StatusFrameEnhanced.Status_13_Base_PIDF0, 
             10, 
             self.constants.kTimeoutMs )
         self.elevator_motor.setStatusFramePeriod(
-            self.elevator_motor.StatusFrameEnhanced.Status_10_MotionMagic,
+            ctre.WPI_TalonSRX.StatusFrameEnhanced.Status_10_MotionMagic,
             10,
             self.constants.kTimeoutMs )
         #Set peak and nominal inputs
@@ -70,11 +71,11 @@ class MyRobot(MagicRobot):
         self.elevator_motor.config_kI(self.constants.kSlotIdx, self.constants.kGains.kI, self.constants.kTimeoutMs)
         self.elevator_motor.config_kD(self.constants.kSlotIdx, self.constants.kGains.kD, self.constants.kTimeoutMs)
         #Set acceleration and vcruise velocity
-        self.elevator_motor.configMotionCruiseVelocity(15000, self.constants.kTimeoutMs);
-        self.elevator_motor.configMotionAcceleration(6000, self.constants.kTimeoutMs);
+        self.elevator_motor.configMotionCruiseVelocity(15000, self.constants.kTimeoutMs)
+        self.elevator_motor.configMotionAcceleration(6000, self.constants.kTimeoutMs)
 
 		#Zero the sensor
-        self.elevator_motor.setSelectedSensorPosition(0, self.constants.kPIDLoopIdx, self.constants.kTimeoutMs);
+        self.elevator_motor.setSelectedSensorPosition(0, self.constants.kPIDLoopIdx, self.constants.kTimeoutMs)
 
 
 

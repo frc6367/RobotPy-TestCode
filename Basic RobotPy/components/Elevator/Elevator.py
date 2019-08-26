@@ -8,6 +8,9 @@ class Elevator:
     def __init__(self):
         self.enabled = False
 
+    def setup(self):
+        pass
+
     def enable(self):
         self.enabled = True
 
